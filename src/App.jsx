@@ -8,9 +8,6 @@ import { setLocalStorage } from './utilities/LocalStorage'
 
 function App() {
 
-  useEffect(() => {
-    setLocalStorage();
-  }, []);
 
 
   const [user, setUser] = useState(null);
@@ -18,34 +15,62 @@ function App() {
   const authData = useContext(AuthContext);
 
 
+ 
+
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (loggedInUser) {
-      setUser(loggedInUser.role);
-      setLoggedInUserData(loggedInUser.data || null);
+    if (!loggedInUser) return;
+
+    setUser(loggedInUser.role);
+
+    if (loggedInUser.role === "employee") {
+      const employees = JSON.parse(localStorage.getItem("employees")) || [];
+      const emp = employees.find(e => e.email === loggedInUser.email);
+      setLoggedInUserData(emp);
     }
-  }, [])
+  }, []);
+
+
+
 
 
   const handleLogin = (email, password) => {
-    
-     if (email === "admin@me.com" && password === "123") {
+
+    // ADMIN LOGIN
+    if (email === "admin@company.com" && password === "12345") {
       setUser("admin");
-      localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
-    } 
-    else if (authData){
-      const employee = authData.employees.find(emp => emp.email === email && emp.password === password);
-      if(employee){
-        setUser("employee")
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ role: "admin" })
+      );
+      return;
+    }
+
+    // EMPLOYEE LOGIN
+    if (authData) {
+      const employee = authData.employees.find(
+        emp => emp.email === email && emp.password === password
+      );
+
+      if (employee) {
+        setUser("employee");
+
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({
+            role: "employee",
+            email: employee.email
+          })
+        );
+
         setLoggedInUserData(employee);
-        localStorage.setItem("loggedInUser", JSON.stringify({ role: "employee" , data: employee }) );
-      } 
+        return;
+      }
     }
-    
-    else {
-      alert("Invalid credentials")
-    }
-  }
+
+    alert("Invalid credentials");
+  };
+
 
   return (
     <>

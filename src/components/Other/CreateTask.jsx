@@ -29,6 +29,8 @@ export const CreateTask = () => {
 
         const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
+
+
         const updatedEmployees = employees.map(emp => {
             if (emp.name === formDetails.assignTo) {
                 return {
@@ -40,6 +42,8 @@ export const CreateTask = () => {
         });
 
         localStorage.setItem("employees", JSON.stringify(updatedEmployees));
+
+        window.dispatchEvent(new Event("taskUpdated"));
 
         console.log("Task added successfully:", newTask);
 
