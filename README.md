@@ -1,1 +1,7 @@
-I have build a fully functional website UI and use localStorage for data persistence. 
+This Employee Task Management Dashboard is a React-based web application designed to manage task assignment and tracking between an admin and employees. The project demonstrates role-based access where an admin can create and assign tasks to employees, while employees can view and manage only the tasks assigned to them. The entire system is built without a backend and uses the browser’s LocalStorage to persist user and task data, making it lightweight and easy to understand.
+
+The application includes separate dashboards for admin and employees. The admin dashboard allows task creation with details such as title, description, category, due date, and task status. Employees have their own dashboard where they can view assigned tasks along with task status counts such as active, accepted, completed, and failed. When a new task is assigned, the employee dashboard updates instantly using a custom browser event, simulating real-time behavior without server-side communication.
+
+This project is developed using React functional components, hooks like useState and useEffect, Context API for authentication data, and Tailwind CSS for styling. It follows clean component architecture and proper state management practices. Authentication is handled using LocalStorage, allowing session persistence even after page refresh.
+
+Throughout this project, I gained hands-on experience with role-based UI rendering, state synchronization, LocalStorage-based data handling, and building scalable frontend architecture. This project can be further enhanced by integrating a backend, adding JWT authentication, and implementing advanced task management features.
